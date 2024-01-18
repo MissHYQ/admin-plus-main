@@ -1,7 +1,7 @@
 <script lang="ts" setup>
   import { useSettingsStore } from '@/store/modules/settings'
   import { translate } from '@/i18n'
-  import { getList } from '@/api/notice'
+  // import { getList } from '@/api/notice'
 
   const $baseMessage: any = inject('$baseMessage')
 
@@ -12,20 +12,20 @@
   const notices: any = ref([])
   const badge = ref(undefined)
 
-  const fetchData = async () => {
-    const {
-      data: { list, total },
-    } = await getList()
-    notices.value = list
-    badge.value = total === 0 ? undefined : total
-  }
+  // const fetchData = async () => {
+  //   const {
+  //     data: { list, total },
+  //   } = await getList()
+  //   notices.value = list
+  //   badge.value = total === 0 ? undefined : total
+  // }
 
   nextTick(() => {
-    if (theme.value.showNotice) fetchData()
+    // if (theme.value.showNotice) fetchData()
   })
 
   const handleClick = () => {
-    fetchData()
+    // fetchData()
   }
 
   const handleClearNotice = () => {

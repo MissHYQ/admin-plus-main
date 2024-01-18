@@ -28,7 +28,7 @@
   }
 
   onMounted(() => {
-    if (theme.value.showSearch) loadAll()
+    // if (theme.value.showSearch) loadAll()
   })
 
   const openDialog = () => {

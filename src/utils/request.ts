@@ -1,6 +1,6 @@
 import { useUserStore } from '@/store/modules/user'
 import {
-  baseURL,
+  axiosBaseURL,
   contentType,
   debounce,
   messageName,
@@ -52,12 +52,18 @@ const CODE_MESSAGE: any = {
 const requestConf: any = (config: any) => {
   const userStore = useUserStore()
   const { token } = userStore
+  const { userInfo } = userStore
   // 不规范写法 可根据setting.config.js tokenName配置随意自定义headers
   // if (token) config.headers[tokenName] = token
 
   // 规范写法 不可随意自定义
-  if (token) config.headers['Authorization'] = `Bearer ${token}`
-
+  // if (token) config.headers['Authorization'] = `Bearer ${token}`
+  if (token) {
+    config.headers['Authorization'] =token;
+    config.headers['X-Userid'] =userInfo.uid;
+    config.headers['X-Nickname'] =userInfo.username;
+  }
+  config.baseURL=axiosBaseURL[config.baseURL]||axiosBaseURL.baseURL
   if (
     config.data &&
     config.headers['Content-Type'] ===
@@ -159,7 +165,6 @@ const handleData = async ({ config, data, status, statusText }: any) => {
  * @description axios初始化
  */
 const instance = axios.create({
-  baseURL,
   timeout: requestTimeout,
   headers: {
     'Content-Type': contentType,

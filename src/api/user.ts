@@ -7,7 +7,7 @@ export async function login(data: any) {
     data = await encryptedData(data)
   }
   return request({
-    url: '/login',
+    url:  process.env.NODE_ENV=='production'?'/login':'http://test.erp.bigoffs.cn/login',
     method: 'post',
     data,
   })
@@ -23,7 +23,22 @@ export async function socialLogin(data: any) {
     data,
   })
 }
+export async function getMenu(data) {
+  return request({
+    baseURL:"baseAdminURL",
+    url: '/v1/index/menu',
+    method: 'post',
+    data,
+    headers: {
+      "X-UserId": localStorage.getItem("uid"),
+      "X-Nickname": encodeURIComponent(localStorage.getItem("nickname")),
+      "Content-Type": "application/json",
+      "Request-Type": "api-request",
+      Authorization: localStorage.getItem("authorization")
+    },
+  })
 
+}
 export function getUserInfo() {
   return request({
     url: '/userInfo',

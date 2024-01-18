@@ -61,3 +61,33 @@ export function removeToken() {
     return localStorage.removeItem(tokenTableName)
   }
 }
+export function setUserInfoMsg(userInfo) {
+  if (storage) {
+   if ('localStorage' === storage) {
+     return localStorage.setItem('userInfo',JSON.stringify(userInfo))
+   } else if ('sessionStorage' === storage) {
+     return sessionStorage.setItem('userInfo',JSON.stringify(userInfo))
+   } else if ('cookie' === storage) {
+    //  return cookie.setItem('userInfo',JSON.stringify(userInfo))
+   } else {
+     return localStorage.setItem('userInfo',JSON.stringify(userInfo))
+   }
+ } else {
+   return localStorage.setItem('userInfo',JSON.stringify(userInfo))
+ }
+}
+export function getUserInfoMsg() {
+  if (storage) {
+    if ('localStorage' === storage) {
+      return JSON.parse(localStorage.getItem('userInfo'))||{}
+    } else if ('sessionStorage' === storage) {
+      return JSON.parse(sessionStorage.getItem('userInfo'))||{}
+    } else if ('cookie' === storage) {
+      // return JSON.parse(cookie.getItem('userInfo'))||{}
+    } else {
+      return JSON.parse(localStorage.getItem('userInfo'))||{}
+    }
+  } else {
+    return JSON.parse(localStorage.getItem('userInfo'))||{}
+  }
+}

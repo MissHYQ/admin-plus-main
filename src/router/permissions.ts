@@ -28,7 +28,7 @@ export function setupPermissions(router: Router) {
       getTheme: { showProgressBar },
     } = useSettingsStore()
     const { routes, setRoutes } = useRoutesStore()
-    const { token, getUserInfo, setVirtualRoles, resetAll } = useUserStore()
+    const { token, getUserInfo,getMenu, setVirtualRoles, resetAll } = useUserStore()
 
     if (showProgressBar) VabProgress.start()
 
@@ -45,7 +45,7 @@ export function setupPermissions(router: Router) {
         } else next()
       } else {
         try {
-          if (loginInterception) await getUserInfo()
+          if (loginInterception) await getMenu()
           // config/setting.config.js loginInterception为false(关闭登录拦截时)时，创建虚拟角色
           else await setVirtualRoles()
           // 根据路由模式获取路由并根据权限过滤

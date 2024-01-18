@@ -6,8 +6,8 @@ import { useTabsStore } from './tabs'
 import { useRoutesStore } from './routes'
 import { useSettingsStore } from './settings'
 import { UserModuleType } from '/#/store'
-import { getUserInfo, login, logout, socialLogin } from '@/api/user'
-import { getToken, removeToken, setToken } from '@/utils/token'
+import { getUserInfo,getMenu, login, logout, socialLogin } from '@/api/user'
+import { getToken,getUserInfoMsg, removeToken, setToken } from '@/utils/token'
 import { resetRouter } from '@/router'
 import { isArray, isString } from '@/utils/validate'
 import { tokenName } from '@/config'
@@ -16,8 +16,9 @@ import { gp } from '@gp'
 export const useUserStore = defineStore('user', {
   state: (): UserModuleType => ({
     token: getToken() as string,
-    username: '游客',
-    avatar: 'https://i.gtimg.cn/club/item/face/img/2/15922_100.gif',
+    userInfo:getUserInfoMsg(),
+    username: '',
+    avatar: '',
   }),
   getters: {
     getToken: (state) => state.token,
@@ -107,6 +108,11 @@ export const useUserStore = defineStore('user', {
      * @description 获取用户信息接口 这个接口非常非常重要，如果没有明确底层前逻辑禁止修改此方法，错误的修改可能造成整个框架无法正常使用
      * @returns
      */
+    async getMenu(){
+      getMenu({app_type:'erp'}).then(res=>{
+        console.log(res,'resMenu');
+      })
+    },
     async getUserInfo() {
       const {
         data: { username, avatar, roles, permissions },
